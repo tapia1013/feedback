@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Card from './shared/Card';
 
 function FeedbackItem({ item }) {
@@ -10,6 +11,11 @@ function FeedbackItem({ item }) {
       </div>
     </Card>
   )
+}
+
+
+FeedbackItem.propTypes = {
+  item: PropTypes.object.isRequired
 }
 
 export default FeedbackItem;
