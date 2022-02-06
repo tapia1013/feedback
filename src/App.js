@@ -23,14 +23,7 @@ const App = () => {
     setFeedback([newFeedback, ...feedback]);
   }
 
-  // delete a feedback
-  const deleteFeedback = (id) => {
-    if (window.confirm('Are you sure you want to delete?')) {
-      // set the feedback with a new array and filter out selected feedback
-      setFeedback(feedback.filter((item) => item.id !== id))
-    }
 
-  }
 
   return (
     <FeedbackProvider>
@@ -45,7 +38,7 @@ const App = () => {
                 <>
                   <FeedbackForm handleAdd={addFeedback} />
                   <FeedbackStats feedback={feedback} />
-                  <FeedbackList handleDelete={deleteFeedback} />
+                  <FeedbackList />
                 </>
               }>
             </Route>
