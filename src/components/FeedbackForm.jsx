@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import RatingSelect from "./RatingSelect";
 import Card from "./shared/Card";
 import Button from "./shared/Button";
@@ -11,7 +11,15 @@ function FeedbackForm() {
   const [message, setMessage] = useState('');
 
   // context
-  const { addFeedback } = useContext(FeedbackContext)
+  const { addFeedback, feedbackEdit, updateFeedback } = useContext(FeedbackContext);
+
+  useEffect(() => {
+    if (feedbackEdit.edit === true) {
+      setBtnDisabled(false);
+      setText(feedbackEdit.item.text);
+      setRating(feedbackEdit.item.rating);
+    }
+  }, [feedbackEdit])
 
   const handleTextChange = (e) => {
     // validation
@@ -37,7 +45,14 @@ function FeedbackForm() {
         rating: rating,
       }
 
-      addFeedback(newFeedback);
+      // if feedbackEdit is true in state
+      if (feedbackEdit.edit === true) {
+        // triggers context func updateFeedback(with args)
+        updateFeedback(feedbackEdit.item.id, newFeedback)
+      } else {
+        // if nothing to be edited
+        addFeedback(newFeedback);
+      }
 
       setText('');
     }
