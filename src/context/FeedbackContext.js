@@ -38,18 +38,32 @@ export const FeedbackProvider = ({ children }) => {
     setFeedback([data, ...feedback]);
   }
 
-  // delete a feedback
-  const deleteFeedback = (id) => {
+  // Delete a feedback
+  const deleteFeedback = async (id) => {
     if (window.confirm('Are you sure you want to delete?')) {
+      await fetch(`/feedback/${id}`, {
+        method: 'DELETE'
+      })
+
       // set the feedback with a new array and filter out selected feedback
       setFeedback(feedback.filter((item) => item.id !== id))
     }
   }
 
   // Func To Update Context feedback Edit, gets(ID, NEW DATA)
-  const updateFeedback = (id, updItem) => {
+  const updateFeedback = async (id, updItem) => {
+    const response = await fetch(`/feedback/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updItem)
+    })
+
+    const data = await response.json();
+
     setFeedback(feedback.map((item) => item.id === id
-      ? { ...item, ...updItem }
+      ? { ...item, ...data }
       : item
     ))
   }
